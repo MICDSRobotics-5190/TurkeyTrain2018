@@ -15,11 +15,13 @@ public class TurkeyTrain extends OpMode {
         rightMotor = hardwareMap.dcMotor.get("right");
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Override
     public void loop() {
-        leftMotor.setPower(gamepad1.left_stick_y);
-        rightMotor.setPower(gamepad1.right_stick_y);
+        leftMotor.setPower(-gamepad1.right_stick_y);
+        rightMotor.setPower(gamepad1.left_stick_y);
     }
 }
