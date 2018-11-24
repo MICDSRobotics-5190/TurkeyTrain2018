@@ -6,8 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "Turkey Train", group = "Driver")
 public class TurkeyTrain extends OpMode {
+
     private DcMotor leftMotor;
     private DcMotor rightMotor;
+    private CruiseControl cruiseControl;
 
     @Override
     public void init() {
@@ -21,6 +23,32 @@ public class TurkeyTrain extends OpMode {
 
     @Override
     public void loop() {
+        if (gamepad1.x) {
+            cruiseControl = CruiseControl.ENABLED;
+        }
+        if (gamepad1.x && cruiseControl == CruiseControl.ENABLED) {
+            cruiseControl = CruiseControl.DISABLED;
+        }
+        if (gamepad1.dpad_up) {
+            cruiseControl = CruiseControl.ENABLED;
+        }
+        if (gamepad1.dpad_down) {
+            cruiseControl = CruiseControl.HALF;
+        }
+
+
+        if (cruiseControl == CruiseControl.ENABLED) {
+            leftMotor.setPower(-1);
+            rightMotor.setPower(1);
+        }
+        else if (cruiseControl == CruiseControl.HALF) {
+            leftMotor.setPower(-0.5);
+            rightMotor.setPower(0.5);
+        }
+        else if (cruiseControl == CruiseControl.ENABLED) {
+            leftMotor.setPower(0);
+            rightMotor.setPower(0);
+        }
         leftMotor.setPower(-gamepad1.right_stick_y);
         rightMotor.setPower(gamepad1.left_stick_y);
     }
